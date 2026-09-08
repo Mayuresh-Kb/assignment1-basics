@@ -1,7 +1,7 @@
 import regex as re
 from .pretokenization_example import find_chunk_boundaries
 
-INPUT_PATH = "/Users/mayureshkasabe/Desktop/CS336-Language-Modeling/assignment1-basics/data/TinyStoriesV2-GPT4-valid.txt"
+INPUT_PATH = "data/TinyStoriesV2-GPT4-valid.txt"
 PAT = r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
 def train_bpe(input_path=INPUT_PATH, vocab_size=260, special_tokens=None):
@@ -101,3 +101,4 @@ def train_bpe(input_path=INPUT_PATH, vocab_size=260, special_tokens=None):
 
     return(vocab, merges)
  
+class Tokenizer:
