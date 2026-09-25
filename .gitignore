@@ -164,3 +164,11 @@ cython_debug/
 
 # Datasets
 data/
+
+# Tokenized / encoded datasets
+*.npy
+*.npz
+
+# Generated tokenizer artifacts
+*_vocab.txt
+*_merges.txt

@@ -102,3 +102,114 @@ def train_bpe(input_path=INPUT_PATH, vocab_size=260, special_tokens=None):
     return(vocab, merges)
  
 class Tokenizer:
+    def __init__(self, vocab, merges, special_tokens=None):
+        self.vocab = vocab
+        self.merges = merges
+        self.special_tokens = special_tokens
+
+        if special_tokens is None:
+            self.special_tokens = ["<|endoftext|>"]
+        for token in self.special_tokens:
+            if token.encode("UTF-8") not in vocab.values():
+                vocab[len(vocab)] = bytes(token.encode("UTF-8"))
+
+        self.reverse_vocab = dict(zip(self.vocab.values(), self.vocab.keys()))
+
+        self.merges_rank = {}
+        for index, value in enumerate(self.merges):
+            self.merges_rank[value] = index
+
+    def encode(self, text):
+
+        escaped_tokens = []
+        encoded_ids = []
+
+        sorted_tokens = sorted(self.special_tokens, key=len, reverse=True)
+
+        for special_token in sorted_tokens:
+            escaped_tokens.append(re.escape(special_token))
+        special_token_pattern = "|".join(escaped_tokens)
+        text = re.split(f"({special_token_pattern})", text)
+
+        for piece in text:
+            if piece == '':
+                pass
+            elif piece in self.special_tokens:
+                encoded_ids.append(self.reverse_vocab[piece.encode("UTF-8")])
+            else:
+                matches = re.finditer(PAT, piece)
+                new_matches = []
+                for match in matches:
+                    match = match.group()
+                    match = match.encode("UTF-8")
+                    match = list(match)
+                    new_matches.append(match)
+
+                outer_list = []
+                for inner_el in new_matches:
+                    inner_list = []
+                    for i in inner_el:
+                        inner_list.append(bytes([i]))
+                    outer_list.append(inner_list)
+
+                for pre_token in outer_list:
+                    while(True):
+                        best_merge_rank = len(self.merges)
+                        best_position = 0
+                        best_pair = None
+                        for i, pair in enumerate(zip(pre_token[:-1], pre_token[1:])):
+                            if pair in self.merges_rank:
+                                if self.merges_rank[pair] < best_merge_rank:
+                                    best_merge_rank = self.merges_rank[pair]  
+                                    best_position = i
+                                    best_pair = pair
+                        
+                        if(best_pair is None):
+                            break
+                        else:
+                            merged_pair = best_pair[0] + best_pair[1]
+                            pre_token[best_position : best_position + 2] = [merged_pair]
+                
+                    for b in pre_token:
+                        encoded_ids.append(self.reverse_vocab[b])
+
+        return encoded_ids
+    
+    def decode(self, ids):
+        byte_id = []
+        for id in ids:
+            byte_id.append(self.vocab[id])
+        decoded_byte = (b"".join(byte_id)).decode("UTF-8", errors="replace")
+        return decoded_byte
+    
+    def encode_iterable(self, iterable):
+        for text in iterable:
+            for id in self.encode(text):
+                yield id
+
+    @classmethod
+    def from_files(cls, vocab_filepath, merges_filepath, special_tokens=None):
+        vocab = {} 
+        with open(vocab_filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                id_hex = line.split()
+                vocab[int(id_hex[0])] = bytes.fromhex(id_hex[1])
+
+        with open(merges_filepath, "r", encoding="utf-8") as f:
+            merges = []
+            for line in f:
+                byte_list = line.split()
+                merges.append((bytes.fromhex(byte_list[0]), bytes.fromhex(byte_list[1])))
+
+        return cls(vocab, merges, special_tokens=None)
+
+def serialization_helper(vocab, merges, vocab_filepath, merges_filepath):
+    with open(vocab_filepath, "w", encoding="utf-8") as f:
+        for id, token in vocab.items():
+            f.write(str(id) + ' ' + token.hex() + "\n")
+
+    with open(merges_filepath, "w", encoding="utf-8") as f:
+        for first, second in merges:
+            f.write(first.hex() + ' ' + second.hex() + "\n")
+
+
