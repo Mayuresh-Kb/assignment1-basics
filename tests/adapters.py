@@ -11,7 +11,7 @@ from torch import Tensor
 
 from cs336_basics.tokenizer import train_bpe, Tokenizer
 from cs336_basics.transformer import Linear, Embedding, RMSNorm, SwiGLU, RoPE, softmax, scaled_dot_product_attention, Causal_multi_head_self_attention, Transformer_block, Transformer_lm
-from cs336_basics.train import cross_entropy, AdamW
+from cs336_basics.train import cross_entropy, AdamW, learning_rate_schedule
 
 
 def run_linear(
@@ -532,7 +532,7 @@ def run_get_lr_cosine_schedule(
     Returns:
         Learning rate at the given iteration under the specified schedule.
     """
-    raise NotImplementedError
+    return learning_rate_schedule(it, max_learning_rate, min_learning_rate, warmup_iters, cosine_cycle_iters)
 
 
 def run_save_checkpoint(

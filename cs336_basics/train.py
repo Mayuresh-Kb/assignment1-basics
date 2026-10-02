@@ -59,3 +59,11 @@ class AdamW(torch.optim.Optimizer):
                         p.sub_(alpha * weight_decay * p)
                         p.sub_(alpha_t * (m / (torch.sqrt(v) + epsilon)))
 
+def learning_rate_schedule(t, alpha_max, alpha_min, T_w, T_c):
+    if t < T_w:
+        return (t/T_w) * alpha_max
+    elif T_w <= t <= T_c:
+        r = (t - T_w) / (T_c - T_w)
+        return alpha_min + 0.5 * (1 + math.cos(r*math.pi)) * (alpha_max - alpha_min)
+    else:
+        return alpha_min
