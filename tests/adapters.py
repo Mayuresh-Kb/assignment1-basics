@@ -11,7 +11,7 @@ from torch import Tensor
 
 from cs336_basics.tokenizer import train_bpe, Tokenizer
 from cs336_basics.transformer import Linear, Embedding, RMSNorm, SwiGLU, RoPE, softmax, scaled_dot_product_attention, Causal_multi_head_self_attention, Transformer_block, Transformer_lm
-from cs336_basics.train import cross_entropy, AdamW, learning_rate_schedule
+from cs336_basics.train import cross_entropy, AdamW, learning_rate_schedule, gradient_clipping
 
 
 def run_linear(
@@ -497,7 +497,7 @@ def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm:
 
     The gradients of the parameters (parameter.grad) should be modified in-place.
     """
-    raise NotImplementedError
+    return gradient_clipping(parameters, max_l2_norm)
 
 
 def get_adamw_cls() -> Any:
