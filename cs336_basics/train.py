@@ -1,5 +1,6 @@
 import torch 
 import torch.nn as nn
+import numpy as np
 import math
 from collections.abc import Callable, Iterable
 from typing import Optional
@@ -90,6 +91,21 @@ def gradient_clipping(parameters, max_norm):
             else:
                 p.grad.mul_(scale)
     
+def get_batch(x, batch_size, context_length, device):
+    n = len(x)
+    start_indices = np.random.randint(0, n - context_length, batch_size)
+
+    inputs = []
+    targets = []
+    for i in start_indices:
+        inputs.append(x[i : i + context_length])
+        targets.append(x[i+1 : i + context_length + 1])
+    inputs = np.stack(inputs)
+    targets = np.stack(targets)
+    inputs = torch.tensor(inputs, dtype=torch.long, device=device)
+    targets = torch.tensor(targets, dtype=torch.long, device=device)
+
+    return (inputs, targets)
 
             
 
