@@ -37,7 +37,6 @@ class RMSNorm(nn.Module):
         self.eps = eps
         self.weight = nn.Parameter(torch.ones(d_model, device=device, dtype=dtype))
 
-
     def forward(self, x):
         in_dtype = x.dtype
         x = x.to(torch.float32)

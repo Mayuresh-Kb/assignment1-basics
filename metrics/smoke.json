@@ -1,0 +1,23 @@
+[
+    {
+        "iteration": 2,
+        "train_loss": 9.199368476867676,
+        "val_loss": 9.210768222808838,
+        "learning_rate": 0.00015,
+        "elapsed_time": 3.148864583024988
+    },
+    {
+        "iteration": 4,
+        "train_loss": 9.217373847961426,
+        "val_loss": 9.205389022827148,
+        "learning_rate": 0.00023249999999999996,
+        "elapsed_time": 3.9499588750186376
+    },
+    {
+        "iteration": 6,
+        "train_loss": 9.24454116821289,
+        "val_loss": 9.212294578552246,
+        "learning_rate": 3e-05,
+        "elapsed_time": 4.0871397080190945
+    }
+]

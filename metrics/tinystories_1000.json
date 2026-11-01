@@ -1,0 +1,72 @@
+[
+    {
+        "iteration": 100,
+        "train_loss": 5.874021053314209,
+        "val_loss": 5.8826440334320065,
+        "learning_rate": 0.00029699999999999996,
+        "elapsed_time": 17.766406500013545
+    },
+    {
+        "iteration": 200,
+        "train_loss": 4.659936428070068,
+        "val_loss": 4.541465425491333,
+        "learning_rate": 0.00029201890380882044,
+        "elapsed_time": 34.20288987501408
+    },
+    {
+        "iteration": 300,
+        "train_loss": 3.9526901245117188,
+        "val_loss": 4.127361154556274,
+        "learning_rate": 0.00026871827568512565,
+        "elapsed_time": 51.07738195901038
+    },
+    {
+        "iteration": 400,
+        "train_loss": 3.7436413764953613,
+        "val_loss": 3.796105456352234,
+        "learning_rate": 0.00023290769279508172,
+        "elapsed_time": 67.82726324998657
+    },
+    {
+        "iteration": 500,
+        "train_loss": 3.715536117553711,
+        "val_loss": 3.749608540534973,
+        "learning_rate": 0.00018890643994314373,
+        "elapsed_time": 84.96626329200808
+    },
+    {
+        "iteration": 600,
+        "train_loss": 3.4487531185150146,
+        "val_loss": 3.6006790161132813,
+        "learning_rate": 0.0001420217176125856,
+        "elapsed_time": 101.6673723339918
+    },
+    {
+        "iteration": 700,
+        "train_loss": 3.1850244998931885,
+        "val_loss": 3.4952863693237304,
+        "learning_rate": 9.790851526128001e-05,
+        "elapsed_time": 118.28522225000779
+    },
+    {
+        "iteration": 800,
+        "train_loss": 3.5571789741516113,
+        "val_loss": 3.459116005897522,
+        "learning_rate": 6.188753613432334e-05,
+        "elapsed_time": 137.98338083398994
+    },
+    {
+        "iteration": 900,
+        "train_loss": 3.3000662326812744,
+        "val_loss": 3.377437472343445,
+        "learning_rate": 3.830344192745995e-05,
+        "elapsed_time": 156.26781941700028
+    },
+    {
+        "iteration": 1000,
+        "train_loss": 3.2454776763916016,
+        "val_loss": 3.2997937202453613,
+        "learning_rate": 3.0000822466198297e-05,
+        "elapsed_time": 174.30818316701334
+    }
+]
